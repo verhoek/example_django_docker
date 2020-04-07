@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  django:
+    build: ./django
+    restart: always
+    volumes:
+      - static_volume:/app/var/static
+    environment:
+      - ASGI=false
+  nginx:
+    build: ./nginx
+    ports:
+        - 80:80
+    volumes:
+      - static_volume:/static
+    depends_on:
+      - django
+
+volumes:
+  static_volume:
